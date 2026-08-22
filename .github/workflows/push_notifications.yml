@@ -11,12 +11,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Baixar codigo do repositorio
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Configurar Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.x'
+          python-version: '3.11'
 
       - name: Instalar dependencias
         run: pip install requests
@@ -24,4 +24,12 @@ jobs:
       - name: Executar script de envio
         env:
           ONESIGNAL_REST_API_KEY: ${{ secrets.ONESIGNAL_REST_API_KEY }}
-        run: python enviar_notificacoes.py
+        run: |
+          if [ -f "enviar_notificacoes.py" ]; then
+            python enviar_notificacoes.py
+          elif [ -f ".github/workflows/enviar_notificacoes.py" ]; then
+            python .github/workflows/enviar_notificacoes.py
+          else
+            echo "Erro: Arquivo enviar_notificacoes.py nao foi encontrado!"
+            exit 1
+          fi
