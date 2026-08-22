@@ -18,7 +18,7 @@ def enviar_notificacao():
         "app_id": ONESIGNAL_APP_ID,
         "headings": {"pt": "Lembrete FinControl Pro 🔔"},
         "contents": {"pt": "Acesse o sistema para conferir suas faturas e lancamentos do dia!"},
-        "included_segments": ["Subscribed Users"],
+        "included_segments": ["Total Subscriptions"],
         "url": "https://fincontrol.netlify.app"
     }
 
