@@ -1,0 +1,27 @@
+name: Disparo de Notificacoes Push - FinControl
+
+on:
+  schedule:
+    # Roda a cada hora (no minuto 0)
+    - cron: '0 * * * *'
+  workflow_dispatch: # Permite rodar manualmente para testar
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar codigo do repositorio
+        uses: actions/checkout@v3
+
+      - name: Configurar Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Instalar dependencias
+        run: pip install requests
+
+      - name: Executar script de envio
+        env:
+          ONESIGNAL_REST_API_KEY: ${{ secrets.ONESIGNAL_REST_API_KEY }}
+        run: python enviar_notificacoes.py
