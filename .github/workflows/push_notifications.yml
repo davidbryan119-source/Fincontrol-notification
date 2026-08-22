@@ -2,8 +2,8 @@ name: Enviar Notificacoes FinControl
 
 on:
   schedule:
-    # Executa a cada hora no minuto 0 (ex: 08:00, 09:00, 10:00...)
-    - cron: '0 * * * *'
+    # Executa todos os dias às 09:00 e às 19:00 no horário de Brasília (12:00 e 22:00 UTC)
+    - cron: '0 12,22 * * *'
   workflow_dispatch: # Permite rodar manualmente para testar quando quiser
 
 jobs:
