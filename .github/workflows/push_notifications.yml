@@ -1,35 +1,31 @@
-name: Disparo de Notificacoes Push - FinControl
+name: Enviar Notificacoes FinControl
 
 on:
   schedule:
-    # Roda a cada hora (no minuto 0)
+    # Executa a cada hora no minuto 0 (ex: 08:00, 09:00, 10:00...)
     - cron: '0 * * * *'
-  workflow_dispatch: # Permite rodar manualmente para testar
+  workflow_dispatch: # Permite rodar manualmente para testar quando quiser
 
 jobs:
   run-script:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Baixar codigo do repositorio
-        uses: actions/checkout@v4
+      - name: Baixar código do repositório
+        uses: actions/checkout@v3
 
       - name: Configurar Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
+          python-version: '3.x'
 
-      - name: Instalar dependencias
-        run: pip install requests
-
-      - name: Executar script de envio
-        env:
-          ONESIGNAL_REST_API_KEY: ${{ secrets.ONESIGNAL_REST_API_KEY }}
+      - name: Instalar bibliotecas
         run: |
-          if [ -f "enviar_notificacoes.py" ]; then
-            python enviar_notificacoes.py
-          elif [ -f ".github/workflows/enviar_notificacoes.py" ]; then
-            python .github/workflows/enviar_notificacoes.py
-          else
-            echo "Erro: Arquivo enviar_notificacoes.py nao foi encontrado!"
-            exit 1
-          fi
+          python -m pip install --upgrade pip
+          pip install requests
+
+      - name: Executar Script de Notificações
+        env:
+          ONESIGNAL_APP_ID: ${{ secrets.ONESIGNAL_APP_ID }}
+          ONESIGNAL_REST_API_KEY: ${{ secrets.ONESIGNAL_REST_API_KEY }}
+        run: python enviar_notificacoes.py
